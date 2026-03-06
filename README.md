@@ -52,9 +52,15 @@
 
 2. Запустите проект локально с помощью docker compose , добейтесь его стабильной работы: команда ```curl -L http://127.0.0.1:8090``` должна возвращать в качестве ответа время и локальный IP-адрес. Если сервисы не стартуют воспользуйтесь командами: ```docker ps -a ``` и ```docker logs <container_name>``` . Если вместо IP-адреса вы получаете информационную ошибку --убедитесь, что вы шлете запрос на порт ```8090```, а не 5000.
 
+<img width="1047" height="92" alt="image" src="https://github.com/user-attachments/assets/cc87da33-876c-46e5-b0b6-c11ad9299bd1" />
+
+
 5. Подключитесь к БД mysql с помощью команды ```docker exec -ti <имя_контейнера> mysql -uroot -p<пароль root-пользователя>```(обратите внимание что между ключем -u и логином root нет пробела. это важно!!! тоже самое с паролем) . Введите последовательно команды (не забываем в конце символ ; ): ```show databases; use <имя вашей базы данных(по-умолчанию virtd, как это указано в .env)>; show tables; SELECT * from requests LIMIT 10;```. Примечание: таблица в БД создается после первого поступившего запроса к приложению.
+<img width="979" height="653" alt="image" src="https://github.com/user-attachments/assets/07ef319a-1bab-4dc6-bac5-7ba844be0054" />
+<img width="1139" height="348" alt="image" src="https://github.com/user-attachments/assets/67059a71-7fbb-4a7a-a3eb-0ff4416519b0" />
 
 6. Остановите проект. В качестве ответа приложите скриншот sql-запроса.
+<img width="1488" height="215" alt="image" src="https://github.com/user-attachments/assets/34948823-d229-4a01-bb1b-08fa9a85b643" />
 
 ## Задача 4
 1. Запустите в Yandex Cloud ВМ (вам хватит 2 Гб Ram).
@@ -63,6 +69,11 @@
 4. Зайдите на сайт проверки http подключений, например(или аналогичный): ```https://check-host.net/check-http``` и запустите проверку вашего сервиса ```http://<внешний_IP-адрес_вашей_ВМ>:8090```. Таким образом трафик будет направлен в ingress-proxy. Трафик должен пройти через цепочки: Пользователь → Internet → Nginx → HAProxy → FastAPI(запись в БД) → HAProxy → Nginx → Internet → Пользователь
 5. (Необязательная часть) Дополнительно настройте remote ssh context к вашему серверу. Отобразите список контекстов и результат удаленного выполнения ```docker ps -a```
 6. Повторите SQL-запрос на сервере и приложите скриншот и ссылку на fork.
+
+<img width="853" height="897" alt="image" src="https://github.com/user-attachments/assets/064a2dbe-afed-4c5c-b0c4-a824c165fb8d" />
+<img width="641" height="757" alt="image" src="https://github.com/user-attachments/assets/ef47db68-8f98-4dfa-9eaa-1839efb74c2b" />
+https://github.com/ekwest93/shvirtd-example-python
+
 
 ## Задача 5 (*)
 1. Напишите и задеплойте на вашу облачную ВМ bash скрипт, который произведет резервное копирование БД mysql в директорию "/opt/backup" с помощью запуска в сети "backend" контейнера из образа ```schnitzler/mysqldump``` при помощи ```docker run ...``` команды. Подсказка: "документация образа."
